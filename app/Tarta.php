@@ -1,16 +1,21 @@
 <?php
+namespace UD4_Herramientas\app;
 
-include_once "Dulce.php";
+use UD4_Herramientas\util\PasteleriaException;
+
+include_once "Autoload.php";
+
 
 class Tarta extends Dulce
 {
-    private $rellenos = [];
+
 
     public function __construct(
         string $nombre,
         int $numero,
         float $precio,
         private int $numPisos,
+        private $rellenos = [],
         private int $minNumComensales = 2,
         private int $maxNumComensales
     ) {
@@ -20,11 +25,12 @@ class Tarta extends Dulce
     public function setRellenos($rellenos)
     {
         if (count($rellenos) != $this->numPisos) {
-            echo "El número de rellenos no puede ser mayor al número de pisos";
-        }else {
+            throw new PasteleriaException("El número de rellenos debe ser igual al número de pisos. ");
+            return false;
+        } else {
             $this->rellenos = $rellenos;
             return $this;
-        }   
+        }
     }
 
     public function getRellenos()
@@ -35,10 +41,10 @@ class Tarta extends Dulce
     public function muestraComensalesPosibles()
     {
         if ($this->minNumComensales == 1 && $this->maxNumComensales > 1) {
-            echo $this->nombre . " es para ". $this->maxNumComensales . " comensales";
+            echo $this->nombre . " es para " . $this->maxNumComensales . " comensales" . "</br>";
         }
         if ($this->minNumComensales > 1 && $this->maxNumComensales > 1) {
-            echo $this->nombre . " es de ". $this->minNumComensales . " a " . $this->maxNumComensales . " comensales";
+            echo $this->nombre . " es de " . $this->minNumComensales . " a " . $this->maxNumComensales . " comensales" . "</br>";
         }
     }
 
@@ -62,14 +68,13 @@ class Tarta extends Dulce
     {
         echo "Nombre: " . $this->nombre . "</br>" .
             "Número: " . $this->numero . "</br>" .
-            "Precio con IVA: " . $this->getPrecioConIVA() . "</br>" . 
-            "Número de pisos: " . $this->numPisos . "</br>" . 
+            "Precio con IVA: " . $this->getPrecioConIVA() . "</br>" .
+            "Número de pisos: " . $this->numPisos . "</br>" .
             "Rellenos: </br>";
-            foreach ($this->rellenos as $key => $value) {
-                echo "Piso nº " . $key + 1 . ": " . $value . "</br>";
-            };
-            echo "Nº de comensales: </br>";
-            $this->muestraComensalesPosibles();
-
+        foreach ($this->rellenos as $key => $value) {
+            echo "Piso nº " . $key + 1 . ": " . $value . "</br>";
+        };
+        echo "Nº de comensales: </br>";
+        $this->muestraComensalesPosibles() . "</br>";
     }
 }

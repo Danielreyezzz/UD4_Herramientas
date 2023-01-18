@@ -1,7 +1,7 @@
 <?php
+use UD4_Herramientas\app\Dulce;
+// include_once "Autoload.php";
 
-include_once "Dulce.php";
+// $dulsesito = new Dulce("Tarta", 2, 5.5);
 
-$dulsesito = new Dulce("Tarta", 2, 5.5);
-
-$dulsesito->muestraResumen();
+// $dulsesito->muestraResumen();

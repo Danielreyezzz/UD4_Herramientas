@@ -1,6 +1,12 @@
 <?php
+namespace UD4_Herramientas\app;
+use UD4_Herramientas\util\PasteleriaException;
+use UD4_Herramientas\util\ClienteNoEncontradoException;
+use UD4_Herramientas\util\DulceNoCompradoException;
+use UD4_Herramientas\util\DulceNoEncontradoException;
+include_once "Autoload.php";
 
-class Dulce
+abstract class Dulce implements Resumible
 {
         private const IVA = 1.21;
         public function __construct(
@@ -28,6 +34,6 @@ class Dulce
         {
                 echo "Nombre: " . $this->nombre . "</br>" .
                         "Número: " . $this->numero . "</br>" .
-                        "Precio con IVA: " . $this->getPrecioConIVA();
+                        "Precio con IVA: " . $this->getPrecioConIVA() . "</br>";
         }
 }

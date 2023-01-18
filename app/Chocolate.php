@@ -1,6 +1,10 @@
 <?php
-
-include_once "Dulce.php";
+namespace UD4_Herramientas\app;
+use UD4_Herramientas\util\PasteleriaException;
+use UD4_Herramientas\util\ClienteNoEncontradoException;
+use UD4_Herramientas\util\DulceNoCompradoException;
+use UD4_Herramientas\util\DulceNoEncontradoException;
+include_once "Autoload.php";
 
 class Chocolate extends Dulce
 {
@@ -29,7 +33,7 @@ class Chocolate extends Dulce
             "Número: " . $this->numero . "</br>" .
             "Precio con IVA: " . $this->getPrecioConIVA() . "</br>" .
             "Porcentaje de cacao: " . $this->porcentajeCacao . "%</br>" .
-            "Peso: " . $this->peso . "g";
+            "Peso: " . $this->peso . "g" . "</br>";
     }
 
       

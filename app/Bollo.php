@@ -1,6 +1,10 @@
 <?php
-
-include_once "Dulce.php";
+namespace UD4_Herramientas\app;
+use UD4_Herramientas\util\PasteleriaException;
+use UD4_Herramientas\util\ClienteNoEncontradoException;
+use UD4_Herramientas\util\DulceNoCompradoException;
+use UD4_Herramientas\util\DulceNoEncontradoException;
+include_once "Autoload.php";
 
 class Bollo extends Dulce
 {
@@ -21,6 +25,6 @@ class Bollo extends Dulce
         echo "Nombre: " . $this->nombre . "</br>" .
             "Número: " . $this->numero . "</br>" .
             "Precio con IVA: " . $this->getPrecioConIVA() . "</br>" .
-            "Relleno: " . $this->relleno;
+            "Relleno: " . $this->relleno . "</br>";
     }
 }

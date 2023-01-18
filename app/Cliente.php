@@ -1,13 +1,16 @@
 <?php
-include_once "Dulce.php";
-include_once "Pasteleria.php";
+namespace UD4_Herramientas\app;
+use UD4_Herramientas\util\PasteleriaException;
+use UD4_Herramientas\util\ClienteNoEncontradoException;
+use UD4_Herramientas\util\DulceNoCompradoException;
+use UD4_Herramientas\util\DulceNoEncontradoException;
+include_once "Autoload.php";
 
 class Cliente
 {
 
     private $dulcesComprados = [];
     private int $numDulcesComprados;
-    private $pedidos = [];
     public function __construct(
         public String $nombre,
         private int $numero,
@@ -65,7 +68,7 @@ class Cliente
 
     public function getNumDulcesComprados()
     {
-        return $this->numDulcesComprados;
+        return count($this->dulcesComprados);
     }
 
     public function setNumDulcesComprados($numDulcesComprados)
@@ -77,28 +80,38 @@ class Cliente
     public function muestraResumen()
     {
         echo "Nombre: " . $this->nombre . "</br>" .
-            "Cantidad de pedidos efectuados: " . $this->numPedidosEfectuados;
+            "Cantidad de pedidos efectuados: " . $this->numPedidosEfectuados . "</br>";
     }
     public function listaDeDulces(Dulce $dulce): bool
     {
         return in_array($dulce, $this->dulcesComprados);
     }
-    public function comprar(Dulce $dulce)
+    public function comprar(Dulce $dulce): bool
     {
-        array_push($dulcesComprados, $dulce);
+        try {
+            array_push($this->dulcesComprados, $dulce);
+            $this->numPedidosEfectuados++;
+            return true;
+        } catch (DulceNoEncontradoException | ClienteNoEncontradoException $m) {
+            echo "Se ha capturado una excepción: " . $m;
+            return false;
+        }
     }
     public function valorar(Dulce $dulce, String $comentario)
     {
-        if ($this->listaDeDulces($dulce)) {
-            echo "Se ha valorado " . $dulce->getNombre() . ":</br>" .
-                $comentario;
+        try {
+            if ($this->listaDeDulces($dulce)) {
+                echo $this->nombre . " ha valorado " . $dulce->getNombre() . ":</br>" .
+                    $comentario;
+            } else {
+                throw new DulceNoCompradoException();
+            }
+        } catch (DulceNoCompradoException $m) {
+            echo "Capturada una excepción: " . $m;
         }
     }
     public function listarPedidos()
     {
-        echo "Pedidos totales de" . $this->nombre . ": " . $this->numPedidosEfectuados;
-        foreach ($this->pedidos as $key => $value) {
-            echo "Pedido nº" . $key + 1 . ": </br>" . $value;
-        }
+        echo "Pedidos totales de" . $this->nombre . ": " . $this->numPedidosEfectuados . "</br>";
     }
 }
