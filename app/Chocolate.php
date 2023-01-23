@@ -1,13 +1,12 @@
 <?php
 namespace UD4_Herramientas\app;
-use UD4_Herramientas\util\PasteleriaException;
-use UD4_Herramientas\util\ClienteNoEncontradoException;
-use UD4_Herramientas\util\DulceNoCompradoException;
-use UD4_Herramientas\util\DulceNoEncontradoException;
+use UD4_Herramientas\util\LogFactory;
+use Monolog\Logger;
 include_once "Autoload.php";
 
 class Chocolate extends Dulce
 {
+    private Logger $log;
     public function __construct(
         string $nombre,
         int $numero,
@@ -16,6 +15,7 @@ class Chocolate extends Dulce
         private float $peso
     ) {
         parent::__construct($nombre, $numero, $precio);
+        $this->log = LogFactory::getLogger();
     }
 
         public function getPorcentajeCacao()

@@ -2,14 +2,14 @@
 namespace UD4_Herramientas\app;
 
 use UD4_Herramientas\util\PasteleriaException;
-
+use UD4_Herramientas\util\LogFactory;
+use Monolog\Logger;
 include_once "Autoload.php";
 
 
 class Tarta extends Dulce
 {
-
-
+    private Logger $log;
     public function __construct(
         string $nombre,
         int $numero,
@@ -20,6 +20,7 @@ class Tarta extends Dulce
         private int $maxNumComensales
     ) {
         parent::__construct($nombre, $numero, $precio);
+        $this->log = LogFactory::getLogger();
     }
 
     public function setRellenos($rellenos)

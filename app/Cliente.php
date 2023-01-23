@@ -1,14 +1,18 @@
 <?php
+
 namespace UD4_Herramientas\app;
-use UD4_Herramientas\util\PasteleriaException;
+
+use UD4_Herramientas\util\LogFactory;
+use Monolog\Logger;
 use UD4_Herramientas\util\ClienteNoEncontradoException;
 use UD4_Herramientas\util\DulceNoCompradoException;
 use UD4_Herramientas\util\DulceNoEncontradoException;
+
 include_once "Autoload.php";
 
 class Cliente
 {
-
+    private Logger $log;
     private $dulcesComprados = [];
     private int $numDulcesComprados;
     public function __construct(
@@ -16,6 +20,7 @@ class Cliente
         private int $numero,
         private int $numPedidosEfectuados = 0
     ) {
+        $this->log = LogFactory::getLogger();
     }
 
     public function getNombre()
@@ -91,6 +96,7 @@ class Cliente
         try {
             array_push($this->dulcesComprados, $dulce);
             $this->numPedidosEfectuados++;
+            $this->log->info("Dulce comprado ", [$dulce], [$dulce->nombre]);
             return true;
         } catch (DulceNoEncontradoException | ClienteNoEncontradoException $m) {
             echo "Se ha capturado una excepción: " . $m;
@@ -103,7 +109,9 @@ class Cliente
             if ($this->listaDeDulces($dulce)) {
                 echo $this->nombre . " ha valorado " . $dulce->getNombre() . ":</br>" .
                     $comentario;
+                $this->log->info("Dulce valorado", [$dulce], [$dulce->nombre]);
             } else {
+                $this->log->error("Se ha intentado valorar un dulce no comprado", [$dulce], [$dulce->nombre]);
                 throw new DulceNoCompradoException();
             }
         } catch (DulceNoCompradoException $m) {

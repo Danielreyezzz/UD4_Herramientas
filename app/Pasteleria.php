@@ -1,20 +1,23 @@
 <?php
 namespace UD4_Herramientas\app;
+use UD4_Herramientas\util\LogFactory;
+use Monolog\Logger;
 use UD4_Herramientas\util\PasteleriaException;
 use UD4_Herramientas\util\ClienteNoEncontradoException;
-use UD4_Herramientas\util\DulceNoCompradoException;
 use UD4_Herramientas\util\DulceNoEncontradoException;
 include_once "Autoload.php";
 
 class Pasteleria
 {
+    private Logger $log;
     private $productos = [];
     private int $numProductos = 0;
     private $clientes = [];
     private int $numClientes = 0;
     public function __construct(
-        public String $nombre,
+        public String $nombre
     ) {
+        $this->log = LogFactory::getLogger();
     }
 
     private function incluirProducto(Dulce $producto)
@@ -83,12 +86,15 @@ class Pasteleria
                 }
             }
             if ($boolCliente && $boolDulce) {
+                $this->log->info("Compra efectuada con éxito", [$cl], [$dul]);
                 $cl->comprar($dul);
             }else{
                 if (!$boolCliente) {
+                     $this->log->error("Intento de compra con CLIENTE no existente");
                     throw new ClienteNoEncontradoException();
                 }
                 if (!$boolDulce) {
+                    $this->log->error("Intento de compra con DULCE no existente");
                     throw new DulceNoEncontradoException();
                 }
             }
