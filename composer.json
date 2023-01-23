@@ -3,6 +3,7 @@
     "description": "carpeta/carpeta",
     "require": {
         "monolog/monolog": "^3.2"
+        
     },
     "license": "LGPL-3.0-only",
     "autoload": {
@@ -15,5 +16,11 @@
             "name": "Danielreyezzz",
             "email": "dangioparefape@gmail.com"
         }
-    ]
+    ],
+    "require-dev": {
+        "phpunit/phpunit": "^9"
+    },
+    "scripts": {
+        "test": "phpunit --testdox --colors test"
+    }
 }
