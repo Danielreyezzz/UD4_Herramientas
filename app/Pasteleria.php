@@ -111,4 +111,8 @@ class Pasteleria
     {
         return $this->productos;
     }
+    public function getNumClientes()
+    {
+        return $this->numClientes;
+    }
 }
