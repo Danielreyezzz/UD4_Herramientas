@@ -20,11 +20,30 @@ class Pasteleria
         $this->log = LogFactory::getLogger();
     }
 
+    /**
+     * Summary of incluirProducto
+     * Añade un Dulce al array de productos y suma el número de productos en 1
+     * @param Dulce $producto
+     * @return void
+     */
     private function incluirProducto(Dulce $producto)
     {
         array_push($this->productos, $producto);
         ++$this->numProductos;
     }
+    /**
+     * Summary of incluirTarta
+     * Incluyo una tarta controlando que sus rellenos sean igual a su número de pisos
+     * @param mixed $nombre
+     * @param mixed $numero
+     * @param mixed $precio
+     * @param mixed $numPisos
+     * @param mixed $rellenos
+     * @param mixed $minC
+     * @param mixed $maxC
+     * @throws PasteleriaException
+     * @return void
+     */
     public function incluirTarta($nombre, $numero, $precio, $numPisos, $rellenos, $minC, $maxC)
     {
         $tarta = new Tarta($nombre, $numero, $precio, $numPisos, $rellenos, $minC, $maxC);
@@ -39,34 +58,79 @@ class Pasteleria
             echo "Capturada una excepción: " . $m;
         }
     }
+    /**
+     * Summary of incluirBollo
+     * Incluyo bollos en el array de productos
+     * @param mixed $nombre
+     * @param mixed $numero
+     * @param mixed $precio
+     * @param mixed $relleno
+     * @return void
+     */
     public function incluirBollo($nombre, $numero, $precio, $relleno)
     {
         $bollo = new Bollo($nombre, $numero, $precio, $relleno);
         $this->incluirProducto($bollo);
     }
+    /**
+     * Summary of incluirChocolate
+     * Incluyo chocolates en el array de productos
+     * @param mixed $nombre
+     * @param mixed $numero
+     * @param mixed $precio
+     * @param mixed $porcentajeCacao
+     * @param mixed $peso
+     * @return void
+     */
     public function incluirChocolate($nombre, $numero, $precio, $porcentajeCacao, $peso)
     {
         $chocolate = new Chocolate($nombre, $numero, $precio, $porcentajeCacao, $peso);
         $this->incluirProducto($chocolate);
     }
+    /**
+     * Summary of incluirCliente
+     * Incluyo clientes en el array de clientes
+     * @param mixed $nombre
+     * @param mixed $numero
+     * @return void
+     */
     public function incluirCliente($nombre, $numero)
     {
         $cliente = new Cliente($nombre, $numero);
         array_push($this->clientes, $cliente);
         ++$this->numClientes;
     }
+    /**
+     * Summary of listarProductos
+     * Para listar los productos
+     * @return void
+     */
     public function listarProductos()
     {
         foreach ($this->productos as $value) {
             $value->muestraResumen();
         }
     }
+    /**
+     * Summary of listarClientes
+     * Para listar los clientes
+     * @return void
+     */
     public function listarClientes()
     {
         foreach ($this->clientes as $value) {
             $value->muestraResumen();
         }
     }
+    /**
+     * Summary of comprarClienteProducto
+     * Relaciona un cliente existente con un dulce existente y lo compra
+     * @param mixed $numCliente
+     * @param mixed $numDulce
+     * @throws ClienteNoEncontradoException
+     * @throws DulceNoEncontradoException
+     * @return void
+     */
     public function comprarClienteProducto($numCliente, $numDulce)
     {
         $boolCliente = false;
